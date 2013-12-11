@@ -365,8 +365,15 @@ MyApplet.prototype = {
         let pressure = weather.get_object_member('atmosphere').get_string_member('pressure')
         let pressure_unit = weather.get_object_member('units').get_string_member('pressure')
 
-        let sunrise = weather.get_object_member('astronomy').get_string_member('sunrise')
-        let sunset = weather.get_object_member('astronomy').get_string_member('sunset')
+        let formatTime = function(time) {
+          time = time.split(/:| /);
+          time[0] = time[0] % 12 + (time[2] === 'am' ? 0 : 12);
+          time[0] = time[0] < 10 ? '0' + time[0] : time[0];
+          return time[0] + ':' + time[1]; 
+        }
+
+        let sunrise = formatTime(weather.get_object_member('astronomy').get_string_member('sunrise'))
+        let sunset = formatTime(weather.get_object_member('astronomy').get_string_member('sunset'))
 
         let temperature = weather_c.get_string_member('temp')
 
